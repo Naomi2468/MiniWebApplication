@@ -17,10 +17,10 @@ DB_PATH = os.environ.get("DATABASE_PATH", str(BASE_DIR / "talking.db"))
 
 app = Flask(__name__)
 
-# SECURITY: never hardcode in a public repo
+# SECURITY: do not hardcode in public repos
 app.secret_key = os.environ.get("SECRET_KEY", "dev_only_change_me")
 
-# Server-side session storage (fine for small projects)
+# Server-side session storage (good for small projects)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -38,7 +38,6 @@ def init_db():
     if not schema_file.exists():
         logger.warning("schema.sql not found; skipping init_db()")
         return
-
     with get_db_connection() as conn, open(schema_file, "r", encoding="utf-8") as f:
         conn.executescript(f.read())
         conn.commit()
@@ -77,7 +76,6 @@ def login():
             return redirect("/login")
 
         session["user_id"] = row["id"]
-        flash("Logged in.")
         return redirect("/")
 
     return render_template("login.html")
@@ -120,7 +118,6 @@ def register():
 @app.route("/logout")
 def logout():
     session.clear()
-    flash("Logged out.")
     return redirect("/")
 
 
@@ -128,7 +125,6 @@ def logout():
 @login_required
 def analyze():
     user_input = (request.form.get("message") or "").strip()
-
     if not user_input:
         flash("Please enter a message to analyze.")
         return redirect("/")
@@ -188,7 +184,6 @@ def playlist():
             "SELECT title, emotion, created_at FROM songs WHERE user_id = ? ORDER BY id DESC",
             (session["user_id"],),
         ).fetchall()
-
     return render_template("playlist.html", songs=songs)
 
 
@@ -196,3 +191,4 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", "5000"))
     debug = os.environ.get("FLASK_DEBUG", "0") == "1"
     app.run(host="0.0.0.0", port=port, debug=debug)
+
