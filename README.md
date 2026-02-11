@@ -1,78 +1,173 @@
-# PROJECT TITLE: TALKING TO THE MOON
+# 🌙 Talking to the Moon
 
-> ***“When you talk to the moon, it listens.”***
-> ***A web app that understands your emotions and recommends soothing music.***
-### Video Demo:  <(https://youtu.be/cidxwCb9ed4)>
----
-
-## Descriptions
-
-This app is a Flask-based web application that uses **Google Gemini AI** to analyze users’ emotions from text input.
-It then recommends mood-based music (from local MP3 files) and offers comforting words.
-Registered users can also log in, save their favorite songs, and revisit their playlists.
-
-
-### Features
-
-- **Emotion Analysis** — Detects emotional tone from text using Gemini AI.
-- **Music Recommendation** — Plays emotion-based local MP3 music.
-- **Comfort Messages** — Shows a soothing quote based on the detected mood.
-- **User Accounts** — Register, log in, log out, and list history songs.
-- **Playlist History** — View all songs recommended based on your past moods.
+> “When you talk to the moon, it listens.”
+>
+> A Flask web application that analyzes user emotions using Google Gemini AI
+> and recommends mood-based music with personalized comfort messages.
 
 ---
 
-### Tech Stack
+## 🎬 Demo
+
+Video demonstration of the application:  
+https://youtu.be/cidxwCb9ed4
+
+---
+
+## 📌 Overview
+
+**Talking to the Moon** is a full-stack web application that:
+
+1. Accepts user text input
+2. Uses Google Gemini API to classify emotional tone
+3. Recommends music based on detected mood
+4. Displays a comfort message
+5. Stores user history for logged-in users
+
+The application demonstrates integration of:
+
+- LLM-based emotion classification
+- User authentication
+- Database persistence
+- Dynamic template rendering
+
+---
+
+## ✨ Features
+
+- 🔍 **Emotion Detection**  
+  Classifies text into one of:  
+  `happy`, `sad`, `angry`, `calm`, `anxious`, `hopeful`, `bored`
+
+- 🎵 **Mood-Based Music Recommendation**  
+  Plays local audio files based on emotional state
+
+- 💬 **Comfort Messaging**  
+  Displays a customized supportive message
+
+- 👤 **User Authentication**
+  - Register
+  - Login
+  - Logout
+
+- 📜 **Playlist History**
+  - Stores past emotional states
+  - Displays recommendation history
+
+---
+
+## 🛠 Tech Stack
 
 | Technology | Purpose |
-|-------------------------|-----------------------|
-| **Python (Flask)**      | Backend web framework |
-| **SQLite3 (CS50 SQL)**  | Database for users and songs |
-| **Google Gemini API**   | Emotion detection engine |
-| **HTML / CSS / Jinja2** | Frontend templates |
-| **Flask-Session** | User session management |
+|------------|----------|
+| **Python (Flask)** | Backend web framework |
+| **SQLite3** | Persistent data storage |
+| **Google Gemini API** | Emotion classification |
+| **Jinja2** | Template rendering |
+| **Flask-Session** | Server-side session management |
+| **HTML / CSS / JS** | Frontend interface |
 
 ---
 
-### Project Structure
-project/
+## 🗂 Project Structure
+
+MiniWebApplication/
 │
-├── app.py # Main Flask application
-├── helpers.py # Login validation and emotion analysis
-├── templates/ # HTML templates
-│ ├── index.html(Home page of the web where user can input their mood)
-│ ├── login.html(user login)
+├── app.py
+├── helpers.py
+├── schema.sql
+├── requirements.txt
+│
+├── templates/
 │ ├── layout.html
-│ ├── register.html(new user register)
-│ ├── result.html(show the result of analysing users' mood)
-│ └── playlist.html(save the record of songs)
+│ ├── index.html
+│ ├── login.html
+│ ├── register.html
+│ ├── result.html
+│ └── playlist.html
 │
-├── static/
-│ ├── scripts.js
-│ ├── style.css
-│ └── music/ # Local audio files (MP3)
-│   ├── sad.mp3
-│   ├── happy.mp3
-│   ├── calm.mp3
-│   ├── anxious.mp3
-│   ├── hopeful.mp3
-│   ├── bored.mp3
-│   └── angry.mp3
-│
-└── talking.db # SQLite database
+└── static/
+├── style.css
+├── scripts.js
+└── music/
 
-### Brief Introduction
-#### app.py
-This backend doc include 6 routers which are: /index(home page), /login, /logout, /register, /playlist and /analyse. It helps processing the logic of my whole app, such as user login, database reading and writing, calling Gemini API to analyze emotions, select music, etc.
 
-#### helpers.py
-This doc is a backend utility module that provides two main functions to the Flask web application: user authentication control — ensures that only logged-in users can access certain routes and emotion analysis using Gemini AI — communicates with Google’s Gemini API to analyze users’ text input and identify their emotional state.
 
-#### talking.db
-This doc is a SQLite database file. It saves the username and encrypted password into the users table of talking.db. It records who the user is, what they listened to, and their emotions at the time they are using.
+---
 
-#### templates
-In the templates folder, it includes all the frontend html file which are index.html, layout.html, login.html, playlist.html, register.html and result.html.And layout.html is the base template of all the other html files.
+## 🔐 Security Considerations
 
-#### static
-In the static folder are the documents where I wrote the javascript and css and also store the local music mp3 file. I use Javascript and css to make my website more dynamic and beautiful to use.
+- Passwords are hashed using `werkzeug.security`
+- Session data is stored server-side
+- API keys are loaded from environment variables
+- Emotion output is restricted to a fixed whitelist
+- Fallback logic ensures safe handling of unexpected model responses
+
+---
+
+## 🗄 Database Schema
+
+### users
+- id (INTEGER, primary key)
+- username (TEXT, unique)
+- password_hash (TEXT)
+- created_at (TEXT)
+
+### songs
+- id (INTEGER, primary key)
+- user_id (INTEGER, foreign key → users.id)
+- title (TEXT)
+- emotion (TEXT)
+- created_at (TEXT)
+
+---
+
+## 🚀 Running Locally
+
+### 1️⃣ Install dependencies
+
+```bash
+pip install -r requirements.txt
+
+
+2️⃣ Set environment variables
+
+Mac / Linux:
+
+export GEMINI_API_KEY="your_api_key"
+export SECRET_KEY="a_random_secret_key"
+
+Windows PowerShell:
+
+$env:GEMINI_API_KEY="your_api_key"
+$env:SECRET_KEY="a_random_secret_key"
+
+
+3️⃣ Run the application
+
+python app.py
+
+
+Visit:
+http://127.0.0.1:5000
+
+
+🔮 Future Improvements
+
+Deploy to cloud platform (Render / Fly.io)
+
+Replace SQLite with PostgreSQL
+
+Add user profile settings
+
+Improve UI/UX design
+
+Add visualization for mood history
+
+
+
+
+👩‍💻 Author
+
+Naomi Li
+MiniWebApplication — 2026
