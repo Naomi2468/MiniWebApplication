@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ title or "Talking" }}</title>
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    {% if session.get("user_id") %}
+      | <a href="/playlist">Playlist</a>
+      | <a href="/logout">Logout</a>
+    {% else %}
+      | <a href="/login">Login</a>
+      | <a href="/register">Register</a>
+    {% endif %}
+  </nav>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+        {% for m in messages %}
+          <li>{{ m }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
