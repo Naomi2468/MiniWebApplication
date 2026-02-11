@@ -1,4 +1,3 @@
-import os
 import re
 import logging
 from functools import wraps
@@ -8,7 +7,6 @@ from google import genai  # google-genai
 
 logger = logging.getLogger(__name__)
 
-# The SDK reads GEMINI_API_KEY from env automatically
 client = genai.Client()
 
 ALLOWED_EMOTIONS = ["happy", "sad", "angry", "calm", "anxious", "hopeful", "bored"]
@@ -32,10 +30,7 @@ def _normalize_output(text: str) -> str:
 
 
 def analyze_emotion(user_text: str) -> str:
-    """
-    Returns one of:
-    happy/sad/angry/calm/anxious/hopeful/bored
-    """
+    """Return one of the allowed emotions. Defaults to 'calm'."""
     try:
         if not user_text or not user_text.strip():
             return "calm"
@@ -64,7 +59,7 @@ def analyze_emotion(user_text: str) -> str:
             if re.search(rf"\b{re.escape(e)}\b", out):
                 return e
 
-        # If model outputs Chinese anyway, fallback keywords
+        # Fallback if model outputs Chinese
         zh_emotions = {
             "sad": ["难过", "悲伤", "伤心", "沮丧"],
             "happy": ["开心", "快乐", "高兴"],
@@ -81,6 +76,5 @@ def analyze_emotion(user_text: str) -> str:
         return "calm"
 
     except Exception as e:
-        # Don't log user text; keep logs minimal
         logger.exception("Gemini analyze_emotion failed: %s", str(e))
         return "calm"
