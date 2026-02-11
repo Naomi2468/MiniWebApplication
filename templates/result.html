@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block content %}
+  <h1>Result</h1>
+  <p><b>Your input:</b> {{ user_input }}</p>
+  <p><b>Emotion:</b> {{ emotion }}</p>
+  <p><b>Recommendation:</b> {{ suggestion_title }}</p>
+  <audio controls src="{{ music_url }}"></audio>
+  <p>{{ comfort }}</p>
+  <p><a href="/">Back</a></p>
+{% endblock %}
