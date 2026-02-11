@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Talking to the Moon</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">🌙 Talking to the Moon</a>
+            <div>
+                {% if session.user_id %}
+                    <a href="/playlist" class="btn btn-outline-light btn-sm">My List</a>
+                    <a href="/logout" class="btn btn-danger btn-sm">Log out</a>
+                {% else %}
+                    <a href="/login" class="btn btn-outline-light btn-sm">Log in</a>
+                    <a href="/register" class="btn btn-warning btn-sm">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert alert-info mt-3">
+              {{ messages[0] }}
+            </div>
+          {% endif %}
+        {% endwith %}
+        {% block body %}{% endblock %}
+    </div>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>
