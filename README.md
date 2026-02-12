@@ -136,11 +136,13 @@ Mac / Linux:
 
 export GEMINI_API_KEY="your_api_key"
 export SECRET_KEY="a_random_secret_key"
+export PORT=8000
 
 Windows PowerShell:
 
 $env:GEMINI_API_KEY="your_api_key"
 $env:SECRET_KEY="a_random_secret_key"
+$env:PORT="8000"
 
 
 3️⃣ Run the application
@@ -149,7 +151,7 @@ python app.py
 
 
 Visit:
-http://127.0.0.1:5000
+http://127.0.0.1:8000
 
 
 🔮 Future Improvements
