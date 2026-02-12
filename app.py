@@ -3,7 +3,7 @@ import sqlite3
 import logging
 from pathlib import Path
 
-from flask import Flask, render_template, request, redirect, session, flash
+from flask import Flask, render_template, request, redirect, session, flash, url_for
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -20,7 +20,7 @@ app = Flask(__name__)
 # SECURITY: do not hardcode in public repos
 app.secret_key = os.environ.get("SECRET_KEY", "dev_only_change_me")
 
-# Server-side session storage (good for small projects)
+# Server-side session storage
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -41,7 +41,6 @@ def init_db():
     with get_db_connection() as conn, open(schema_file, "r", encoding="utf-8") as f:
         conn.executescript(f.read())
         conn.commit()
-
 
 
 @app.route("/")
@@ -127,20 +126,22 @@ def analyze():
 
     emotion = analyze_emotion(user_input)
 
+    # ✅ Only store STATIC filenames here (no /static/ prefix)
     recommendations = {
-        "sad": {"title": "Melancholy Melody 🎧", "url": "/static/music/sad.mp3"},
-        "happy": {"title": "Cheerful Rhythm 😊", "url": "/static/music/happy.mp3"},
-        "angry": {"title": "Cool Down 🎸", "url": "/static/music/angry.mp3"},
-        "calm": {"title": "Peaceful Piano 🌿", "url": "/static/music/calm.mp3"},
-        "anxious": {"title": "Breathe and Relax 🌲", "url": "/static/music/anxious.mp3"},
-        "hopeful": {"title": "Gentle Hope ☀️", "url": "/static/music/hopeful.mp3"},
-        "bored": {"title": "Lazy Afternoon Tea 🎵", "url": "/static/music/bored.mp3"},
+        "sad": {"title": "Melancholy Melody 🎧", "file": "music/sad.mp3"},
+        "happy": {"title": "Cheerful Rhythm 😊", "file": "music/happy.mp3"},
+        "angry": {"title": "Cool Down 🎸", "file": "music/angry.mp3"},
+        "calm": {"title": "Peaceful Piano 🌿", "file": "music/calm.mp3"},
+        "anxious": {"title": "Breathe and Relax 🌲", "file": "music/anxious.mp3"},
+        "hopeful": {"title": "Gentle Hope ☀️", "file": "music/hopeful.mp3"},
+        "bored": {"title": "Lazy Afternoon Tea 🎵", "file": "music/bored.mp3"},
     }
 
     suggestion = recommendations.get(emotion, recommendations["calm"])
     suggestion_title = suggestion["title"]
-    music_url = suggestion["url"]
+    music_file = suggestion["file"]
 
+    # Save to DB
     with get_db_connection() as conn:
         conn.execute(
             "INSERT INTO songs (user_id, title, emotion) VALUES (?, ?, ?)",
@@ -167,7 +168,7 @@ def analyze():
         user_input=user_input,
         emotion=emotion,
         suggestion_title=suggestion_title,
-        music_url=music_url,
+        music_file=music_file,   # ✅ pass filename
         comfort=comfort,
     )
 
@@ -188,4 +189,3 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", "5000"))
     debug = os.environ.get("FLASK_DEBUG", "0") == "1"
     app.run(host="0.0.0.0", port=port, debug=debug)
-

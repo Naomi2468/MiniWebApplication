@@ -4,3 +4,4 @@ __pycache__/
 talking.db
 *.db
 .DS_Store
+flask_session/
