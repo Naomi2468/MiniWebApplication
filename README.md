@@ -124,9 +124,9 @@ MiniWebApplication/
 
 ```bash
 pip install -r requirements.txt
+```
 
----
-**### 2️⃣ Set environment variables**
+### 2️⃣ Set environment variables**
 
 Mac / Linux:
 
@@ -140,7 +140,7 @@ $env:GEMINI_API_KEY="your_api_key"
 $env:SECRET_KEY="a_random_secret_key"
 $env:PORT="8000"
 
----
+
 ### 3️⃣ Run the application
 
 python app.py
