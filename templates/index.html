@@ -1,14 +1,40 @@
 {% extends "layout.html" %}
 {% block content %}
-  <h1>Emotion → Music</h1>
+  <section class="hero">
+    <div class="hero-text">
+      <h1 class="page-title">Talking to the Moon 🌙</h1>
+      <p class="subtitle">Write a sentence. I’ll listen, find your emotion, and play a matching melody.</p>
+    </div>
 
-  {% if not session.get("user_id") %}
-    <p>Please login to use the analyzer.</p>
-  {% else %}
-    <form action="/analyze" method="post">
-      <label>Message</label><br />
-      <textarea name="message" rows="4" cols="50" placeholder="Type something..."></textarea><br />
-      <button type="submit">Analyze</button>
-    </form>
-  {% endif %}
+    {% if not session.get("user_id") %}
+      <div class="card">
+        <p class="muted">Please log in to use the analyzer.</p>
+        <div class="actions">
+          <a class="btn" href="/login">Log in</a>
+          <a class="btn btn-ghost" href="/register">Create account</a>
+        </div>
+      </div>
+    {% else %}
+      <div class="card">
+        <form action="/analyze" method="post" class="form">
+          <label class="label" for="message">Your message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            class="input textarea"
+            placeholder="Type anything… (English or Chinese)"
+            required
+          ></textarea>
+
+          <div class="actions">
+            <button class="btn btn-primary" type="submit">Analyze ✨</button>
+            <a class="btn btn-ghost" href="/playlist">View playlist</a>
+          </div>
+
+          <p class="hint">Tip: Try “I feel anxious about tomorrow” or “我今天有点难过”.</p>
+        </form>
+      </div>
+    {% endif %}
+  </section>
 {% endblock %}
