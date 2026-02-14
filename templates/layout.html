@@ -3,33 +3,57 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>{{ title or "Talking" }}</title>
+  <title>{{ title or "Talking to the Moon" }}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
-  <nav>
-    <a href="/">Home</a>
-    {% if session.get("user_id") %}
-      | <a href="/playlist">Playlist</a>
-      | <a href="/logout">Logout</a>
-    {% else %}
-      | <a href="/login">Login</a>
-      | <a href="/register">Register</a>
-    {% endif %}
-  </nav>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-mark">🌙</div>
+        <div class="brand-text">
+          <div class="brand-title">Talking to the Moon</div>
+          <div class="brand-subtitle">Type your feelings. I’ll listen.</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+
+        {% if session.get("user_id") %}
+          <a class="nav-link" href="{{ url_for('playlist') }}">Playlist</a>
+          <a class="nav-link nav-cta" href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+          <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+          <a class="nav-link nav-cta" href="{{ url_for('register') }}">Register</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
 
   <main class="container">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
-        <div class="flash">
+        <div class="flash-stack">
           {% for m in messages %}
-            <div class="flash-item">{{ m }}</div>
+            <div class="flash">{{ m }}</div>
           {% endfor %}
         </div>
       {% endif %}
     {% endwith %}
 
-    {% block content %}{% endblock %}
+    <section class="card">
+      {% block content %}{% endblock %}
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© {{ 2026 }} Talking to the Moon</span>
+      <span class="dot">•</span>
+      <span class="muted">Built with Flask + SQLite</span>
+    </div>
+  </footer>
 </body>
 </html>
