@@ -1,20 +1,36 @@
 {% extends "layout.html" %}
-
 {% block content %}
-  <h1>Playlist</h1>
-  <p class="small">Your recent recommendations will appear here.</p>
+  <div class="card">
+    <div class="row-between">
+      <div>
+        <h1 class="page-title">Your Playlist</h1>
+        <p class="subtitle">Recent recommendations based on your moods.</p>
+      </div>
+      <a class="btn btn-ghost" href="/">Back to analyzer</a>
+    </div>
 
-  {% if songs and songs|length > 0 %}
-    <hr>
-    <ul>
-      {% for s in songs %}
-        <li>
-          <strong>{{ s["title"] }}</strong>
-          <span class="small"> — {{ s["emotion"] }}{% if s["created_at"] %} · {{ s["created_at"] }}{% endif %}</span>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No history yet. Go back to <a href="/">Home</a> and analyze a message 🙂</p>
-  {% endif %}
+    {% if songs and songs|length > 0 %}
+      <div class="list">
+        {% for s in songs %}
+          <div class="list-item">
+            <div class="list-main">
+              <div class="list-title">{{ s["title"] }}</div>
+              <div class="list-meta">
+                <span class="pill">{{ s["emotion"] }}</span>
+                {% if s["created_at"] %}
+                  <span class="dot">•</span>
+                  <span class="muted">{{ s["created_at"] }}</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">
+        <p class="muted">No history yet.</p>
+        <p>Go back to <a href="/" class="link">Home</a> and analyze a message 🙂</p>
+      </div>
+    {% endif %}
+  </div>
 {% endblock %}
