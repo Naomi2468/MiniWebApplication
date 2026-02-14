@@ -1,10 +1,23 @@
 {% extends "layout.html" %}
 {% block content %}
-  <h1>Register</h1>
-  <form action="/register" method="post">
-    <input name="username" placeholder="username" />
-    <input name="password" type="password" placeholder="password" />
-    <input name="confirmation" type="password" placeholder="confirm password" />
-    <button type="submit">Register</button>
-  </form>
+  <div class="card narrow">
+    <h1 class="page-title">Create an account</h1>
+    <p class="subtitle">Your playlist history will be saved under your account.</p>
+
+    <form action="/register" method="post" class="form">
+      <label class="label" for="username">Username</label>
+      <input id="username" class="input" name="username" placeholder="Pick a username" autocomplete="username" required />
+
+      <label class="label" for="password">Password</label>
+      <input id="password" class="input" name="password" type="password" placeholder="Create a password" autocomplete="new-password" required />
+
+      <label class="label" for="confirmation">Confirm password</label>
+      <input id="confirmation" class="input" name="confirmation" type="password" placeholder="Type it again" autocomplete="new-password" required />
+
+      <div class="actions">
+        <button class="btn btn-primary" type="submit">Register</button>
+        <a class="btn btn-ghost" href="/login">I already have an account</a>
+      </div>
+    </form>
+  </div>
 {% endblock %}
