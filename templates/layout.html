@@ -43,14 +43,12 @@
       {% endif %}
     {% endwith %}
 
-    <section class="card">
-      {% block content %}{% endblock %}
-    </section>
+    {% block content %}{% endblock %}
   </main>
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <span>© {{ 2026 }} Talking to the Moon</span>
+      <span>© 2026 Talking to the Moon</span>
       <span class="dot">•</span>
       <span class="muted">Built with Flask + SQLite</span>
     </div>
