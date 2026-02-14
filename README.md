@@ -19,7 +19,7 @@ https://youtu.be/cidxwCb9ed4
 **Talking to the Moon** is a full-stack web application that:
 
 1. Accepts user text input
-2. Uses Google Gemini API to classify emotional tone
+2. Uses Google Gemini API (LLM-based inference) to classify emotional tone
 3. Recommends music based on detected mood
 4. Displays a comfort message
 5. Stores user history for logged-in users
@@ -77,6 +77,8 @@ MiniWebApplication/
 ├── helpers.py
 ├── schema.sql
 ├── requirements.txt
+├── .env.example
+├── .gitignore
 │
 ├── templates/
 │ ├── layout.html
@@ -102,6 +104,7 @@ MiniWebApplication/
 - API keys are loaded from environment variables
 - Emotion output is restricted to a fixed whitelist
 - Fallback logic ensures safe handling of unexpected model responses
+- SQL queries use parameterized statements to prevent SQL injection
 
 ---
 
@@ -130,7 +133,7 @@ MiniWebApplication/
 pip install -r requirements.txt
 
 
-2️⃣ Set environment variables
+### 2️⃣ Set environment variables
 
 Mac / Linux:
 
