@@ -1,9 +1,20 @@
 {% extends "layout.html" %}
 {% block content %}
-  <h1>Login</h1>
-  <form action="/login" method="post">
-    <input name="username" placeholder="username" />
-    <input name="password" type="password" placeholder="password" />
-    <button type="submit">Login</button>
-  </form>
+  <div class="card narrow">
+    <h1 class="page-title">Welcome back</h1>
+    <p class="subtitle">Log in to continue your moon playlist.</p>
+
+    <form action="/login" method="post" class="form">
+      <label class="label" for="username">Username</label>
+      <input id="username" class="input" name="username" placeholder="Enter your username" autocomplete="username" required />
+
+      <label class="label" for="password">Password</label>
+      <input id="password" class="input" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required />
+
+      <div class="actions">
+        <button class="btn btn-primary" type="submit">Log in</button>
+        <a class="btn btn-ghost" href="/register">Create account</a>
+      </div>
+    </form>
+  </div>
 {% endblock %}
