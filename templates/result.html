@@ -1,17 +1,34 @@
 {% extends "layout.html" %}
-
 {% block content %}
   <h1>Result</h1>
 
-  <p><b>Your input:</b> {{ user_input }}</p>
-  <p><b>Emotion:</b> {{ emotion }}</p>
-  <p><b>Recommendation:</b> {{ suggestion_title }}</p>
+  <div class="kv">
+    <div class="kv-item">
+      <div class="k">Your input</div>
+      <div class="v">{{ user_input }}</div>
+    </div>
 
-  <audio controls preload="auto">
-    <source src="{{ url_for('static', filename=music_file) }}" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+    <div class="kv-item">
+      <div class="k">Emotion</div>
+      <div class="v">{{ emotion }}</div>
+    </div>
 
-  <p>{{ comfort }}</p>
-  <p><a href="/">Back</a></p>
+    <div class="kv-item">
+      <div class="k">Recommendation</div>
+      <div class="v">{{ suggestion_title }}</div>
+    </div>
+  </div>
+
+  <div class="audio-wrap">
+    <audio controls preload="auto" style="width:100%;">
+      <source src="{{ url_for('static', filename=music_file) }}" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <p class="small" style="margin:10px 0 0;">{{ comfort }}</p>
+  </div>
+
+  <div class="actions">
+    <a class="btn btn-ghost" href="{{ url_for('index') }}">← Back</a>
+    <a class="btn btn-primary" href="{{ url_for('playlist') }}">View Playlist</a>
+  </div>
 {% endblock %}
