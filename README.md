@@ -126,7 +126,7 @@ MiniWebApplication/
 pip install -r requirements.txt
 ```
 
-### 2️⃣ Set environment variables**
+### 2️⃣ Set environment variables
 
 Mac / Linux:
 
@@ -161,7 +161,6 @@ Add user profile settings
 Improve UI/UX design
 
 Add visualization for mood history
-
 
 
 
