@@ -7,13 +7,6 @@
 
 ---
 
-## 🎬 Demo
-
-Video demonstration of the application:  
-https://youtu.be/cidxwCb9ed4
-
----
-
 ## 📌 Overview
 
 **Talking to the Moon** is a full-stack web application that:
@@ -132,8 +125,8 @@ MiniWebApplication/
 ```bash
 pip install -r requirements.txt
 
-
-### 2️⃣ Set environment variables
+---
+**### 2️⃣ Set environment variables**
 
 Mac / Linux:
 
@@ -147,8 +140,8 @@ $env:GEMINI_API_KEY="your_api_key"
 $env:SECRET_KEY="a_random_secret_key"
 $env:PORT="8000"
 
-
-3️⃣ Run the application
+---
+### 3️⃣ Run the application
 
 python app.py
 
@@ -157,7 +150,7 @@ Visit:
 http://127.0.0.1:8000
 
 
-🔮 Future Improvements
+## 🔮 Future Improvements
 
 Deploy to cloud platform (Render / Fly.io)
 
@@ -172,7 +165,7 @@ Add visualization for mood history
 
 
 
-👩‍💻 Author
+## 👩‍💻 Author
 
 Naomi Li
-MiniWebApplication — 2026
+2026
