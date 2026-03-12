@@ -1,13 +1,12 @@
+import os
 import re
 import logging
 from functools import wraps
-from flask import redirect, session
 
-from google import genai  # google-genai
+from flask import redirect, session
+from google import genai
 
 logger = logging.getLogger(__name__)
-
-client = genai.Client()
 
 ALLOWED_EMOTIONS = ["happy", "sad", "angry", "calm", "anxious", "hopeful", "bored"]
 
@@ -18,7 +17,6 @@ def login_required(f):
         if session.get("user_id") is None:
             return redirect("/login")
         return f(*args, **kwargs)
-
     return decorated_function
 
 
@@ -27,6 +25,13 @@ def _normalize_output(text: str) -> str:
     t = re.sub(r"[^a-z\s\.\!\?,-]", " ", t)
     t = re.sub(r"\s+", " ", t).strip()
     return t
+
+
+def _get_client():
+    api_key = os.environ.get("GEMINI_API_KEY", "").strip()
+    if not api_key:
+        raise RuntimeError("GEMINI_API_KEY is not set")
+    return genai.Client(api_key=api_key)
 
 
 def analyze_emotion(user_text: str) -> str:
@@ -41,11 +46,13 @@ def analyze_emotion(user_text: str) -> str:
 
         prompt = (
             "Determine the main emotion of the following text.\n"
-            f"Choose one from: {ALLOWED_EMOTIONS}.\n"
+            f"Choose one from: {', '.join(ALLOWED_EMOTIONS)}.\n"
             "Return only one English word, no explanation.\n"
             "If the text is in Chinese, translate it first before analyzing.\n\n"
             f"Text:\n{text}\n"
         )
+
+        client = _get_client()
 
         resp = client.models.generate_content(
             model="gemini-2.5-flash",
@@ -59,7 +66,6 @@ def analyze_emotion(user_text: str) -> str:
             if re.search(rf"\b{re.escape(e)}\b", out):
                 return e
 
-        # Fallback if model outputs Chinese
         zh_emotions = {
             "sad": ["难过", "悲伤", "伤心", "沮丧"],
             "happy": ["开心", "快乐", "高兴"],
